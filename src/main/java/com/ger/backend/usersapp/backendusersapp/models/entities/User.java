@@ -20,12 +20,12 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank  //NotEmpty es para validar string, psara validar un numero en cambio por ej se usa NotNull, etc
+    @NotBlank  //NotEmpty es para validar string, para validar un numero en cambio por ej se usa NotNull, etc
     @Size (min=4, max=8)
     @Column (unique = true)
     private String username;
 
-    @NotEmpty
+    @NotBlank
     private String password;
 
     @NotEmpty
