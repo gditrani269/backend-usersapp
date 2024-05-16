@@ -1,4 +1,4 @@
-package com.ger.backend.usersapp.backendusersapp.models.entities;
+package com.ger.backend.usersapp.backendusersapp.models.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
