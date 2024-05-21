@@ -17,7 +17,8 @@ public class SpringSecurityConfiguration {
         .anyRequest().authenticated()
         .and()
         .csrf(config -> config.disable())
-        .sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();
+        .sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .build();
     }
 
 }
