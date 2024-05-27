@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ger.backend.usersapp.backendusersapp.models.entities.User;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -22,12 +23,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+//nota GDD: implementamos el login, su endpoint y metodos de respuesta
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
     private AuthenticationManager authenticationManager;
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
+        //nota GDD: para cabiar la url default de login de /login a por ej /logines usar lo siguiente
+        //https://www.codejava.net/frameworks/spring-boot/spring-security-before-authentication-filter-examples
+        //super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/logines", "POST"));
     }
 
     @Override

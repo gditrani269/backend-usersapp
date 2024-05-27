@@ -25,7 +25,7 @@ public class JpaUserDetailsService implements UserDetailsService{
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new User(username, 
-            "12345", 
+            "$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS",//12345", 
             true, 
             true, 
             true, 
