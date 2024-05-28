@@ -47,8 +47,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     username = user.getUsername();
                     password = user.getPassword();
 
-                    logger.info("Username desde request InputStream (raw)" + username);
-                    logger.info("Password desde request InputStream (raw)" + password);
+//                    logger.info("Username desde request InputStream (raw)" + username);
+//                    logger.info("Password desde request InputStream (raw)" + password);
                 } catch (StreamReadException e) {
                     
                     e.printStackTrace();
@@ -69,10 +69,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal())
                 .getUsername();
-        String originalInput = "algun_token_con_una_frase_secreta." + username;
+        String originalInput = TokenJwtConfig.SECRET_KEY + ":" + username;
         String token = Base64.getEncoder().encodeToString(originalInput.getBytes());
 
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader(TokenJwtConfig.HEADER_AUTHORIZATION, TokenJwtConfig.PREFIX_TOKEN + token);
 
         Map<String, Object> body = new HashMap<>();
         body.put("token", token);
