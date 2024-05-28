@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional (readOnly = true)
@@ -35,6 +39,8 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User save(User user) {
         System.out.println("En el save");
+        String passwordBCrypt = passwordEncoder.encode (user.getPassword());
+        user.setPassword(passwordBCrypt);
         return repository.save(user);
     }
 

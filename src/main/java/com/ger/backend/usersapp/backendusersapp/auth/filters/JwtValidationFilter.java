@@ -35,23 +35,18 @@ public class JwtValidationFilter extends BasicAuthenticationFilter  {
         HttpServletResponse response, 
         FilterChain chain)
             throws IOException, ServletException {
-
-        System.out.println("TRACKING 1 ");
         //verifica que en la cabezara del request tenga: "Autorization" y "Bearer "
         String header = request.getHeader(TokenJwtConfig.HEADER_AUTHORIZATION);
         if (header == null || !header.startsWith(TokenJwtConfig.PREFIX_TOKEN)){
-            System.out.println("TRACKING 2 ");
             chain.doFilter(request, response);
             return;
         }
         //eliminamos la palabra Bearer de nuestro token
         String token = header.replace(TokenJwtConfig.PREFIX_TOKEN, "");
-        System.out.println("token " + token);
         //decodificamos la cadena del token para obtenre la frase secreta que debe coincidir con la que tenemos en JwtAuthenticationFilter
         byte[] tokenDecodeBytes = Base64.getDecoder().decode(token);
         //convertimos el arreglo del decode que biene ne bytes a string
         String tokenDecode = new String (tokenDecodeBytes);
-        System.out.println("tokenDecode " + tokenDecode);
         String[] tokenArr = tokenDecode.split(":");
         String secret = tokenArr [0];
         String username = tokenArr [1];
