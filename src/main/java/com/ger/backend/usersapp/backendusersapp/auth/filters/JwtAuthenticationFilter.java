@@ -2,6 +2,7 @@ package com.ger.backend.usersapp.backendusersapp.auth.filters;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ger.backend.usersapp.backendusersapp.models.entities.User;
+
+import io.jsonwebtoken.Jwts;
+
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +26,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import static com.ger.backend.usersapp.backendusersapp.auth.filters.TokenJwtConfig.*;
 
 //nota GDD: implementamos el login, su endpoint y metodos de respuesta
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
@@ -69,8 +75,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal())
                 .getUsername();
-        String originalInput = TokenJwtConfig.SECRET_KEY + ":" + username;
-        String token = Base64.getEncoder().encodeToString(originalInput.getBytes());
+        String token = Jwts.builder()
+                .setSubject(username)
+                .signWith(SECRET_KEY)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .compact();
 
         response.addHeader(TokenJwtConfig.HEADER_AUTHORIZATION, TokenJwtConfig.PREFIX_TOKEN + token);
 
