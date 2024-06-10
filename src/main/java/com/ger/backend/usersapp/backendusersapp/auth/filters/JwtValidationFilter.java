@@ -2,6 +2,7 @@ package com.ger.backend.usersapp.backendusersapp.auth.filters;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,13 +54,15 @@ public class JwtValidationFilter extends BasicAuthenticationFilter  {
             .parseClaimsJws(token)
             .getBody();
 
-            Object authorities = claims.get ("authorities");
+            Object authoritiesClaims = claims.get ("authorities");
             String username = claims.getSubject();
             Object username2 = claims.get("username");
             System.out.println("username: " + username);
             System.out.println("username2: " + username2);
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+            List<GrantedAuthority> authorities = Arrays
+            .asList(new ObjectMapper().readValue(authoritiesClaims.toString().getBytes(), SimpleGrantedAuthority[].class));
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
