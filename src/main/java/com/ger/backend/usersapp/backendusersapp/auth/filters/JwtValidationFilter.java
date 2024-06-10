@@ -53,6 +53,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter  {
             .parseClaimsJws(token)
             .getBody();
 
+            Object authorities = claims.get ("authorities");
             String username = claims.getSubject();
             Object username2 = claims.get("username");
             System.out.println("username: " + username);
