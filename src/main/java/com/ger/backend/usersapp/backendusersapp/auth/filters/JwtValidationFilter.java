@@ -1,8 +1,8 @@
 package com.ger.backend.usersapp.backendusersapp.auth.filters;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ger.backend.usersapp.backendusersapp.auth.SimpleGrantedAuthorityJsonCreator;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -48,7 +49,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter  {
 
         try {
 
-            Claims claims = Jwts.parser()
+            Claims claims = Jwts.parserBuilder()
             .setSigningKey(TokenJwtConfig.SECRET_KEY)
             .build()
             .parseClaimsJws(token)
@@ -60,8 +61,10 @@ public class JwtValidationFilter extends BasicAuthenticationFilter  {
             System.out.println("username: " + username);
             System.out.println("username2: " + username2);
 
-            List<GrantedAuthority> authorities = Arrays
-            .asList(new ObjectMapper().readValue(authoritiesClaims.toString().getBytes(), SimpleGrantedAuthority[].class));
+            Collection<? extends GrantedAuthority> authorities = Arrays
+                .asList(new ObjectMapper()
+                    .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityJsonCreator.class)
+                    .readValue(authoritiesClaims.toString().getBytes(), SimpleGrantedAuthority[].class));
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
