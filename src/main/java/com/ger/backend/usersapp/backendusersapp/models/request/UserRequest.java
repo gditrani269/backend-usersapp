@@ -16,6 +16,14 @@ public class UserRequest {
     @Email  //valida que tenga formato de email
     private String email;
 
+    private boolean admin;
+
+    public boolean isAdmin() {
+        return admin;
+    }
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
     public String getUsername() {
         return username;
     }
