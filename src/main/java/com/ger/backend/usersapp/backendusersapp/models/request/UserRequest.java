@@ -1,11 +1,13 @@
 package com.ger.backend.usersapp.backendusersapp.models.request;
 
+import com.ger.backend.usersapp.backendusersapp.models.IUser;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-public class UserRequest {
+public class UserRequest implements IUser {
 
 
     @NotBlank  //NotEmpty es para validar string, para validar un numero en cambio por ej se usa NotNull, etc
@@ -18,6 +20,7 @@ public class UserRequest {
 
     private boolean admin;
 
+    @Override
     public boolean isAdmin() {
         return admin;
     }
