@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping ("/users")
-@CrossOrigin (originPatterns = "*")
+@CrossOrigin (originPatterns = "*") //origins para configurar un dominio que no sea local
 public class UserController {
 
     @Autowired

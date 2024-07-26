@@ -65,7 +65,8 @@ public class SpringSecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource () {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:8082"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:8082")); //si conocemos la ruta del frontend la ponemao aca de manera exacta
+        config.setAllowedOriginPatterns(Arrays.asList("*")); //si no conocemos la ruta de nuestro frontend le ponemos * para todos
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
