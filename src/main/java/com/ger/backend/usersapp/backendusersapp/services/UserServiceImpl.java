@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
+    @Transactional (readOnly = true)
     public Page<UserDto> findAll(Pageable pageable) {
         Page<User> usersPage = repository.findAll(pageable);
         return usersPage.map (u -> DtoMapperUser.builder().setUser(u).build());
